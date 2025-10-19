@@ -3,17 +3,28 @@
   box-sizing: border-box;
 }
 
-body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
+body { 
+  margin: 0;
+  padding-bottom: 40px;  /* 底部留 40px 空白 */ 
+}
 
 /*整體*/
 .body {
-    font-size: 20px;   /* 全站基礎字體大小20px */
+  font-size: 20px;   /* 全站基礎字體大小20px */
 }
 
-.brand{ font-weight: 700; }
+.brand{ 
+  font-weight: 700; 
+}
 
 /* navbar：桌機預設橫排 */
-.navbar{ margin-left:auto; display:flex; align-items:center; gap:10px; position:relative; }
+.navbar{ 
+  margin-left:auto; 
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  position:relative; 
+}
 
 .nav-toggle{ display:none; }
 .hamburger{ display:none; }   /* 桌機不顯示漢堡 */
@@ -29,19 +40,21 @@ body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
   width:auto; 
   height:auto; 
   padding:0; 
-  box-shadow:none; }
+  box-shadow:none; 
+}
 
 .item{ 
   padding:8px 12px; 
   text-decoration:none; 
-  color:#111; }
+  color:#111; 
+}
 
 /* 頂部列 */
 .top{
-    font-weight: bold;   /* 粗體 */
-    align-items: center; /* 垂直置中 */
-    display:flex; /*讓下一層次的項目水平排列*/
-    padding: 10px; /* 四周文字離邊框都有空間 */
+  font-weight: bold;   /* 粗體 */
+  align-items: center; /* 垂直置中 */
+  display:flex; /*讓下一層次的項目水平排列*/
+  padding: 10px; /* 四周文字離邊框都有空間 */
 }
 
 .top > div{
@@ -50,20 +63,20 @@ body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
 
 /*歡迎區塊*/
 .welcome{
-    display: flex;
-    justify-content: center; /* 水平置中 */
-    align-items: center; /* 垂直置中 */
-    font-size: 2em;   /* 2 倍於基礎字體大小 */
-    font-weight: bold;   /* 粗體 */
-    height:250px;
-    background-color: lightblue;
-    margin-bottom: 20px
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+  font-size: 2em;   /* 2 倍於基礎字體大小 */
+  font-weight: bold;   /* 粗體 */
+  height:250px;
+  background-color: lightblue;
+  margin-bottom: 20px
 }
 
 /*主區塊*/
 .main{
-    width: 1200px;
-    margin: 0 auto; /* ← 水平置中關鍵 */
+  width: 1200px;
+  margin: 0 auto; /* ← 水平置中關鍵 */
 }
 
 /* ✅ Promotion 容器 */
@@ -153,7 +166,6 @@ body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
   grid-column: span 2;}
 }
 
-
 /* 手機 */
 @media (max-width:600px){
   .welcome{
@@ -180,7 +192,8 @@ body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
   .card{
     margin-bottom:20px;
     }
-  .card:last-child { margin-bottom: 0; }  
+  .card:last-child { margin-bottom: 0; } 
+  
   /* 顯示漢堡鈕 */
   .hamburger{
     display:flex; 
@@ -199,18 +212,20 @@ body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
     position: fixed;
     top: 0;
     right: 0;                        /* 固定在右邊 */
-    width:  max(25vw, 180px);        /* 佔 1/4 至少 px*/
+    width: max(25vw, 180px);        /* 佔 1/4 至少 px*/
     height: 100vh;
     background:#fff;
     box-shadow: -12px 0 24px rgba(0,0,0,.15);
-    display:flex; flex-direction:column; align-items:flex-start;
+    display:flex; 
+    flex-direction:column; 
+    align-items:flex-start;
     gap: 20px; padding: 72px 24px 24px;
-    transform: translateX(100%);     /* ✅ 預設整個移出畫面 */
+    transform: translateX(100%);     /* 預設整個移出畫面 */
     transition: transform .25s ease;
     z-index: 1001;
   }
 
-  /* 勾選（點漢堡）時抽屜滑入 */
+  /* 點漢堡時抽屜滑入 */
   .nav-toggle:checked ~ .menu{
     transform: translateX(0);
   }
@@ -231,8 +246,10 @@ body { margin: 0;padding-bottom: 40px;  /* ← 底部留 40px 空白 */ }
 
   /* 讓漢堡靠右 */
   .navbar{ width:100%; justify-content:flex-end; }
-    /* ✅ 抽屜打開時隱藏漢堡鈕，避免和關閉鈕重疊 */
+  
+    /* 抽屜打開時隱藏漢，避免和關閉鈕重疊 */
   .nav-toggle:checked ~ .hamburger{
     display: none;
   }
 }
+
