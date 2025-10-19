@@ -79,7 +79,7 @@ body {
   margin: 0 auto; /* ← 水平置中關鍵 */
 }
 
-/* ✅ Promotion 容器 */
+/* Promotion 容器 */
 .promos{
   display:grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -252,4 +252,5 @@ body {
     display: none;
   }
 }
+
 
