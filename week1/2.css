@@ -1,0 +1,256 @@
+/* Reset：統一瀏覽器的 box-sizing 行為 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body { 
+  margin: 0;
+  padding-bottom: 40px;  /* 底部留 40px 空白 */ 
+}
+
+/*整體*/
+.body {
+  font-size: 20px;   /* 全站基礎字體大小20px */
+}
+
+.brand{ 
+  font-weight: 700; 
+}
+
+/* navbar：桌機預設橫排 */
+.navbar{ 
+  margin-left:auto; 
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  position:relative; 
+}
+
+.nav-toggle{ display:none; }
+.hamburger{ display:none; }   /* 桌機不顯示漢堡 */
+.close-btn{ display:none; }   /* 桌機不顯示關閉鈕 */
+.backdrop{ display:none; }    /* 桌機不顯示遮罩 */
+
+.menu{ 
+  transform: none;
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  position:static; 
+  width:auto; 
+  height:auto; 
+  padding:0; 
+  box-shadow:none; 
+}
+
+.item{ 
+  padding:8px 12px; 
+  text-decoration:none; 
+  color:#111; 
+}
+
+/* 頂部列 */
+.top{
+  font-weight: bold;   /* 粗體 */
+  align-items: center; /* 垂直置中 */
+  display:flex; /*讓下一層次的項目水平排列*/
+  padding: 10px; /* 四周文字離邊框都有空間 */
+}
+
+.top > div{
+  white-space: nowrap;   /* 不允許換行 */
+}
+
+/*歡迎區塊*/
+.welcome{
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+  font-size: 2em;   /* 2 倍於基礎字體大小 */
+  font-weight: bold;   /* 粗體 */
+  height:250px;
+  background-color: lightblue;
+  margin-bottom: 20px
+}
+
+/*主區塊*/
+.main{
+  width: 1200px;
+  margin: 0 auto; /* ← 水平置中關鍵 */
+}
+
+/* Promotion 容器 */
+.promos{
+  display:grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap:20px;
+  margin-bottom:20px;
+}
+.promos .wrap:nth-child(1){ grid-column: span 6; }  /* P1 全寬 */
+.promos .wrap:nth-child(2){ grid-column: span 4; }  /* P2 2 份 */
+.promos .wrap:nth-child(3){ grid-column: span 2; }  /* P3 1 份 → 左緣會與 Title 4/9 對齊 */
+
+/* Promotion 區塊外觀 */
+.wrap{ 
+  display:flex; 
+  align-items:center;
+  background-color: lightblue;
+  width:100%;
+  height:50px;
+  gap: 10px;
+}
+
+/* 圖片容器：桌機 6 欄 */
+.gallery{
+  display:grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap:20px;
+  margin-top:20px;
+}
+
+/*圖片版型*/
+.card {
+  position: relative; /* 讓 caption 可以定位在圖片內 */
+  overflow: hidden; /* 建議加上固定比例，讓高度一致： */
+  height:200px;
+}
+
+/* 圖片設定 */
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保持比例裁切，不變形 */
+  display: block;
+}
+
+/* 讓第1張圖片寬度是其他的2倍 */
+.card.big {
+  grid-column: span 2; /* 佔兩個欄位 */
+}
+
+/* 底部文字條 */
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  text-align: center;
+  font-weight: 700;
+  color: #000;  /* 黑字在淺藍底上可讀性高 */
+  background-color: rgba(173, 216, 230, 0.5);/* 淺藍色半透明底 */
+}
+
+/* 右上角星星 */
+.star {
+  position: absolute;
+  top: 8px;          /* 離上邊 8px */
+  right: 8px;        /* 離右邊 8px */
+  font-size: 15px;   /* 星星大小 */
+  color: gold;       /* 星星顏色 */
+}
+
+/* 平板 */
+@media (max-width:1200px){
+  .main{ width: 90%; }
+  .promos{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .promos .wrap:nth-child(1){ grid-column: span 2; }
+  .promos .wrap:nth-child(2){ grid-column: span 2; }
+  .promos .wrap:nth-child(3){ grid-column: span 4; }  /* 第二列全寬 */
+  .gallery{ grid-template-columns: repeat(4, 1fr); }
+  /* 取消 Title1/6 的放大 */
+  .gallery .card.big{ grid-column: span 1; }
+  /* Title9、10 各佔 50% */
+  .gallery .card:nth-child(9),
+  .gallery .card:nth-child(10){
+  grid-column: span 2;}
+}
+
+/* 手機 */
+@media (max-width:600px){
+  .welcome{
+    font-size: clamp(1.2rem, 8vw, 2rem);  /* 依螢幕自動縮放 */
+    text-align: center; /* 讓文字在小螢幕置中 */
+    padding: 0 10px;    /* 預防字貼到邊界 */
+    height: 180px;      /* 高度也可以縮一點 */
+    white-space: nowrap; /* 不允許換行，整句維持一行 */
+  }
+  .main{ width: 90%; }
+  .promos{ grid-template-columns: 1fr; }
+  .promos .wrap:nth-child(1),
+  .promos .wrap:nth-child(2),
+  .promos .wrap:nth-child(3){
+    grid-column: auto;   /* 清掉上面跨欄設定，避免殘留 */
+  }
+  .gallery{
+    grid-template-columns: 1fr;   /* 一列只一欄 → 每張圖 100% */
+    gap:0px;
+    }
+  .gallery .card{ grid-column: 1 / -1 ; }
+  .gallery .card.big{ grid-column: 1 / -1 ; }
+
+  .card{
+    margin-bottom:20px;
+    }
+  .card:last-child { margin-bottom: 0; } 
+  
+  /* 顯示漢堡鈕 */
+  .hamburger{
+    display:flex; 
+    align-items:center; 
+    justify-content:center;
+    width:36px; 
+    height:36px; 
+    cursor:pointer;
+    z-index:1102;   /*讓漢堡鈕永遠在最上層 */
+  }
+
+  .hamburger img{ width:28px; height:28px; display:block; }
+
+  /* 抽屜：預設藏在畫面外（translateX 100%） */
+  .menu{
+    position: fixed;
+    top: 0;
+    right: 0;                        /* 固定在右邊 */
+    width: max(25vw, 180px);        /* 佔 1/4 至少 px*/
+    height: 100vh;
+    background:#fff;
+    box-shadow: -12px 0 24px rgba(0,0,0,.15);
+    display:flex; 
+    flex-direction:column; 
+    align-items:flex-start;
+    gap: 20px; padding: 72px 24px 24px;
+    transform: translateX(100%);     /* 預設整個移出畫面 */
+    transition: transform .25s ease;
+    z-index: 1001;
+  }
+
+  /* 點漢堡時抽屜滑入 */
+  .nav-toggle:checked ~ .menu{
+    transform: translateX(0);
+  }
+
+  /* 關閉鈕與遮罩 */
+  .close-btn{
+    position:absolute; top:16px; right:16px;
+    width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .close-btn img{ width:28px; height:28px; }
+
+  .backdrop{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.25);
+    z-index:1000; cursor:pointer;
+  }
+  .nav-toggle:checked ~ .backdrop{ display:block; }
+
+  /* 讓漢堡靠右 */
+  .navbar{ width:100%; justify-content:flex-end; }
+  
+    /* 抽屜打開時隱藏漢，避免和關閉鈕重疊 */
+  .nav-toggle:checked ~ .hamburger{
+    display: none;
+  }
+}
+
+
