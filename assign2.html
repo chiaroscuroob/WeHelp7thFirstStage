@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+      <title>Week 2 - Assign2 (All Tasks)</title>
+      <style>
+        body {
+          font-family: ui-sans-serif, system-ui, "Noto Sans TC", sans-serif;
+          background: #0b1020;
+          color: #e8ebff;
+          padding: 24px;
+          line-height: 1.6;
+        }
+        h1 { color: #ffffff; }
+        h2 { color: #7aa2ff; border-bottom: 1px solid #2a3567; padding-bottom: 4px; }
+        pre {
+          background: #121733;
+          border: 1px solid #2a3567;
+          border-radius: 12px;
+          padding: 12px;
+          margin-bottom: 24px;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+      </style>
+    </head>
+
+  <body>
+    <h1>Assignment-Week 2</h1>
+    <div id="out"></div>
+
+    <script>
+      const show = (title) => {
+        const out = document.getElementById("out");
+        const section = document.createElement("div");
+        section.innerHTML = `<h2>${title}</h2><pre id="${title}"></pre>`;
+        out.appendChild(section);
+        return section.querySelector("pre");
+      };
+
+      const logTo = (pre) => (...args) => {
+        console.log(...args);
+        pre.textContent += args.join(" ") + "\n";
+      };
+
+      /* ================= Task 1 ================= */
+
+      const out1 = show("Task 1");
+      const log1 = logTo(out1);
+
+      // 所有人物的座標（平面上的 (x, y)）
+      const T1_POINTS = {
+        "悟空": [0, 0],
+        "辛巴": [-3, 3],
+        "丁滿": [-1, 4],
+        "貝吉塔": [-4, -1],
+        "特南克斯": [1, -2],
+        "弗利沙": [4, -1],
+      };
+      // 定義一條直線，由兩個端點決定：P1(-3,5) 到 P2(5,-4)
+      const T1_LINE_P1 = [-3, 5];
+      const T1_LINE_P2 = [5, -4];
+
+      // 取出所有角色名字陣列（["悟空","辛巴",... ]）
+      const T1_NAMES = Object.keys(T1_POINTS);
+
+      // 判斷點([x,y])相對於直線 P1→P2 的「方向（左右側）」：
+      // 回傳 1 表示在向量左側；-1 表示右側；0 表示在線上
+      // 核心是 2D 向量的叉積 cross((P2-P1),(P-P1)) 的正負號
+      const t1_side = ([x, y]) => {
+        const [x1, y1] = T1_LINE_P1, [x2, y2] = T1_LINE_P2;
+        const v = (x2 - x1) * (y - y1) - (y2 - y1) * (x - x1);
+        return v > 0 ? 1 : v < 0 ? -1 : 0;
+      };
+
+      // 曼哈頓距離（Manhattan distance）：|x1-x2| + |y1-y2|
+      const t1_manhattan = (a, b) => Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+
+      // 兩個角色名字 a, b 的「題目規定距離」：
+      // 1) 先取他們座標的曼哈頓距離 d
+      // 2) 如果兩點分居直線兩側（t1_side(A)*t1_side(B) < 0），再額外 +2 
+      function t1_dist(a, b) {
+        const A = T1_POINTS[a], B = T1_POINTS[b];
+        let d = t1_manhattan(A, B);
+        if (t1_side(A) * t1_side(B) < 0) d += 2;
+        return d;
+      }
+
+      // 主函式：給一個角色 name，找出：
+      // - 與他「最遠」的角色（可能不只一個 → 平手全部列出）
+      // - 與他「最近」的角色（同上）
+      // 並輸出：最遠A、B；最近C、D
+      function func1(name) {
+        // 先把除了自己以外的所有人算一遍距離
+        const others = T1_NAMES
+        .filter(n => n !== name) // 排除自己
+        .map(n => [n, t1_dist(name, n)]); // 變成 [名字, 距離] 的配對陣列
+
+        // 取出所有距離的純陣列，方便找 min/max
+        const ds = others.map(([, d]) => d);
+        const dmin = Math.min(...ds), dmax = Math.max(...ds);
+
+        // 撈出距離 = dmin / dmax 的名字（平手會有多個）
+        const closest = others.filter(([, d]) => d === dmin).map(([n]) => n);
+        const farthest = others.filter(([, d]) => d === dmax).map(([n]) => n);
+        
+        // 輸出格式：最遠X、Y；最近A、B（用頓號「、」串名單）
+        log1(`最遠${farthest.join("、")}；最近${closest.join("、")}`);
+      }
+
+        func1("辛巴"); // print 最遠弗利沙；最近丁滿、貝吉塔 
+        func1("悟空"); // print 最遠丁滿、弗利沙；最近特南克斯 
+        func1("弗利沙"); // print 最遠辛巴，最近特南克斯 
+        func1("特南克斯"); // print 最遠丁滿，最近悟空
+
+        // t1_side：叉積判側：給定一條有方向的線段 P1→P2 和某點 P：cross(P2-P1, P-P1) = (x2-x1)*(y-y1) - (y2-y1)*(x-x1)
+        // 若結果 > 0，P 在「左側」；< 0 在「右側」；=0 表示在線上
+        // 兩點分居兩側 → 一個結果正、一個負 → 相乘 < 0
+
+        // 曼哈頓距離：像走棋盤格，只能橫走或直走，距離是 x 差 + y 差
+        
+
+      /* ================= Task 2 ================= */
+
+      const out2 = show("Task 2");
+      const log2 = logTo(out2);
+
+      // 預約表：Map<name, Array<[start, end]>>。每個人對應他的多個已預約時段
+      const T2_BOOKED = new Map();
+
+      // 判斷兩個區間是否重疊。這個寫法把區間當成「半開區間」的效果（[start, end)）
+      // 若 e1 <= s2 或 e2 <= s1 代表「完全分離或剛好接觸」，就不重疊，否則就是重疊
+      const overlap = (s1, e1, s2, e2) => !(e1 <= s2 || e2 <= s1);
+
+      // 檢查某個 name 在 (s,e) 這段是否有空
+      // 若沒任何預約，當然有空；有預約則「每一個已預約時段都不重疊」才算有空
+      const isAvailable = (name, s, e) =>
+        !T2_BOOKED.has(name) || T2_BOOKED.get(name).every(([a, b]) => !overlap(s, e, a, b));
+
+      // 真的決定用了，就把 (s,e) 記到 name 的預約表裡
+      const book = (name, s, e) => {
+        if (!T2_BOOKED.has(name)) T2_BOOKED.set(name, []);
+        T2_BOOKED.get(name).push([s, e]);
+      };
+
+      // 允許三種欄位：name、r、c；運算子只收 =, >=, <=
+      // name 的值保留字串；r、c 轉數字，解析失敗回 null（後面會印 "Sorry"）
+      const parseCrit = c => {
+        const m = c.trim().match(/^(name|r|c)\s*(=|>=|<=)\s*(.+)$/);
+        if (!m) return null;
+        const [, f, op, raw] = m;
+        const v = f === "name" ? raw.trim() : Number(raw);
+        return { field: f, op, value: v };
+      };
+
+      // 挑選最佳匹配（只在「有空」的候選 cands 中挑）
+      // name=：直接找同名（沒有就回 null）
+      // >= 類條件：先過濾 s[f] >= v，再依 f 由小到大排序（越貼近門檻越好），平手用名字字母序，取第一個
+      // <= 類條件：先過濾 s[f] <= v，再依 f 由大到小排序（越貼近門檻越好），平手用名字字母序，取第一個
+      const pickService = (cands, f, op, v) => {
+        if (f === "name") return cands.find(s => s.name === v) || null;
+        const fit = cands.filter(s => op === ">=" ? s[f] >= v : s[f] <= v);
+        if (!fit.length) return null;
+        fit.sort(op === ">="
+          ? (a, b) => a[f] - b[f] || a.name.localeCompare(b.name)
+          : (a, b) => b[f] - a[f] || a.name.localeCompare(b.name));
+        return fit[0];
+      };
+
+      // 主流程
+      // 解析條件；錯誤就 "Sorry"
+      // 先用 isAvailable 篩出有空的人
+      // 用 pickService 在有空的人裡挑一個最符合條件的
+      // 挑不到印 "Sorry"；挑到就 book 這段時間並印出 name
+      function func2(ss, start, end, c) {
+        const p = parseCrit(c);
+        if (!p) return log2("Sorry");
+        const { field, op, value } = p;
+        const available = ss.filter(s => isAvailable(s.name, start, end));
+        const chosen = pickService(available, field, op, value);
+        if (!chosen) return log2("Sorry");
+        book(chosen.name, start, end);
+        return log2(chosen.name);
+      }
+      const services = [
+        { name: "S1", r: 4.5, c: 1000 },
+        { name: "S2", r: 3, c: 1200 },
+        { name: "S3", r: 3.8, c: 800 }
+      ];
+      func2(services, 15, 17, "c>=800");
+      func2(services, 11, 13, "r<=4");
+      func2(services, 10, 12, "name=S3");
+      func2(services, 15, 18, "r>=4.5");
+      func2(services, 16, 18, "r>=4");
+      func2(services, 13, 17, "name=S1");
+      func2(services, 8, 9, "c<=1500");
+      func2(services, 8, 9, "c<=1500"); // 要在符合條件且時段有空的Services中選Best Match，最後多加一個測試func2(services, 8, 9, "c<=1500"); 要能印出 S1
+
+
+      /* ================= Task 3 ================= */
+
+      const out3 = show("Task 3");
+      const log3 = logTo(out3);
+
+      // Note: Never change existing code.
+      function func3(index) {
+        const diffs = [-2, -3, +1, +2]; // 循環差分（從25開始的第一步是-2）
+        let val = 25;                    // val=起點
+        for (let i = 0; i < index; i++) {
+          val += diffs[i % 4]; // % 取餘數
+        }
+        log3(val);
+        return val;
+      }
+      func3(1);  // 23
+      func3(5);  // 21
+      func3(10); // 16
+      func3(30); // 6
+
+      /* ================= Task 4 ================= */
+
+      // 建立一個輸出區域（out4），並取得一個記錄器 log4，後面用 log4(x) 來顯示也回傳結果
+      const out4 = show("Task 4"); 
+      const log4 = logTo(out4);
+
+      function func4(sp, stat, n) { // 宣告函式：sp 是每節可用座位數的陣列、stat 是字串（"0"=可用、"1"=不可用）、n 是乘客人數
+        // 第一階段
+        let bestIdx = -1, bestLeft = Infinity; // bestIdx = -1 當作尚未找到的哨兵值；bestLeft = Infinity 當作找「最小剩餘座位」的比較基準，讓第一個合格者一定「更小」而被收進來
+        for (let i = 0; i < sp.length; i++) { // 走訪所有車廂索引 i
+          if (stat[i] !== "0") continue; // 只看可用車廂
+          if (sp[i] < n) continue; // 只看能完整容納的車廂
+          const left = sp[i] - n; // 放下 n 人後的剩餘座位
+          // Best Fit 比較邏輯：剩餘座位越小越好；同分時索引小者優先
+          if (left < bestLeft || (left === bestLeft && i < bestIdx)) {
+            bestLeft = left;
+            bestIdx = i;
+          }
+        }
+        if (bestIdx !== -1) return log4(bestIdx); // 跑完第一階段，若找到了（bestIdx != -1），就輸出並回傳這個索引
+
+        // 第二階段（坐位數不夠但找最適合的車廂）
+        let fbIdx = -1, bestDiff = -Infinity;
+        // 比較規則：diff 越大（越接近 0）越好；同分取索引小者，例如 n=4 時，sp=3（diff=-1）會比 sp=2（diff=-2）更「接近」
+        for (let i = 0; i < sp.length; i++) {
+          if (stat[i] !== "0") continue;
+          const diff = sp[i] - n;
+          if (diff > bestDiff || (diff === bestDiff && i < fbIdx)) {
+            bestDiff = diff;
+            fbIdx = i;
+          }
+        }
+        if (fbIdx !== -1) return log4(fbIdx); // 若有備援方案，輸出該索引
+        return log4("Sorry"); // 兩階段都沒命中（例如全部不可用），輸出 "Sorry"
+      }
+      func4([3, 1, 5, 4, 3, 2], "101000", 2);
+      func4([1, 0, 5, 1, 3], "10100", 4);
+      func4([4, 6, 5, 8], "1000", 4);
+
+    </script>
+  </body>
+</html>
