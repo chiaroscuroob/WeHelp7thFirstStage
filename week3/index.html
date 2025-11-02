@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Assignment - Week 3 (Taipei Attractions)</title>
+    <link rel="stylesheet" href="home.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="body">
+      <div class="top">
+        <div class="brand">My Website</div>
+
+        <nav class="navbar" aria-label="Primary">
+          <!-- ✅ 無 JS 的抽屜開關 -->
+          <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+          <!-- ✅ 漢堡按鈕 -->
+          <label class="hamburger" for="nav-toggle" aria-label="開啟/關閉選單">
+            <span class="icon" aria-hidden="true">☰</span>
+          </label>
+
+          <div class="menu" role="menu" aria-label="主選單">
+            <!-- ✅ 抽屜內的關閉按鈕 -->
+            <label for="nav-toggle" class="close-btn" aria-label="關閉選單">
+              <span class="icon" aria-hidden="true">×</span>
+            </label>
+
+            <a class="item" href="#" role="menuitem">Item 1</a>
+            <a class="item" href="#" role="menuitem">Item 2</a>
+            <a class="item" href="#" role="menuitem">Item 3</a>
+            <a class="item" href="#" role="menuitem">Item 4</a>
+          </div>
+
+          <!-- ✅ 點遮罩可關閉 -->
+          <label for="nav-toggle" class="backdrop" aria-hidden="true"></label>
+        </nav>
+      </div>
+
+      <div class="welcome">Welcome to MyHome</div>
+
+      <!-- 主區塊 -->
+      <div class="main">
+        <!-- Promotion 區塊（JS 動態塞 3 個） -->
+        <div id="promos" class="promos" role="list" aria-label="精選景點"></div>
+
+        <!-- 圖片牆（JS 動態塞 10 個） -->
+        <div id="gallery" class="gallery" role="list" aria-label="景點列表"></div>
+        <!-- ✅ 載入更多 -->
+        <div class="load-more-wrap">
+          <button id="loadMore" type="button" aria-live="polite">Load More</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
