@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>飯店查詢</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box-hotel">
+            <div class="header">旅館的資訊</div>
+            <div style="padding: 20px; text-align: center;">
+                {% if hotel %}
+                    <p style="font-size: 16px;">
+                    {{ hotel.name_zh }}、{{ hotel.name_en }}、{{ hotel.phone }}
+                    </p>
+                {% else %}
+                    <p style="color: #d9534f; font-weight: bold;">查詢不到相關資料</p>
+                {% endif %}
+                <div style="margin-top: 20px;">
+                    <a href="/" style="display: inline-block; padding: 8px 16px; background-color: #2b4b80; color: white; text-decoration: none; border-radius: 4px;">返回首頁</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
