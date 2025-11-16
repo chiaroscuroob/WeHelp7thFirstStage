@@ -30,27 +30,6 @@ mysql> CREATE TABLE member (
     -> );
 Query OK, 0 rows affected (0.04 sec)
 
-mysql> SHOW TABLES;
-+-------------------+
-| Tables_in_website |
-+-------------------+
-| member            |
-+-------------------+
-1 row in set (0.01 sec)
-
-mysql> DESC member;
-+----------------+--------------+------+-----+-------------------+-------------------+
-| Field          | Type         | Null | Key | Default           | Extra             |
-+----------------+--------------+------+-----+-------------------+-------------------+
-| id             | int unsigned | NO   | PRI | NULL              | auto_increment    |
-| name           | varchar(255) | NO   |     | NULL              |                   |
-| email          | varchar(255) | NO   |     | NULL              |                   |
-| password       | varchar(255) | NO   |     | NULL              |                   |
-| follower_count | int unsigned | NO   |     | 0                 |                   |
-| time           | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+----------------+--------------+------+-----+-------------------+-------------------+
-6 rows in set (0.00 sec)
-
 <img width="1920" height="1020" alt="task2_建立資料庫與資料表截圖" src="https://github.com/user-attachments/assets/8a7e60f7-d64b-40b3-9ee2-f322e5d978f4" />
 
 <img width="1920" height="1020" alt="task2_成功截圖" src="https://github.com/user-attachments/assets/5e2c65db-63cb-4a32-969c-60749ed82794" />
@@ -83,16 +62,6 @@ mysql> INSERT INTO member (name, email, password)
 Query OK, 1 row affected (0.01 sec)
 
 mysql> SELECT * FROM member;
-+----+-------+-----------------+----------+----------------+---------------------+
-| id | name  | email           | password | follower_count | time                |
-+----+-------+-----------------+----------+----------------+---------------------+
-|  1 | test  | test@test.com   | test     |              0 | 2025-11-16 20:24:39 |
-|  2 | abc   | abc@abc.com     | abc      |              0 | 2025-11-16 20:29:42 |
-|  3 | love  | love@love.com   | love     |              0 | 2025-11-16 20:30:09 |
-|  4 | happy | happy@happy.com | happy    |              0 | 2025-11-16 20:30:31 |
-|  5 | world | world@world.com | world    |              0 | 2025-11-16 20:30:56 |
-+----+-------+-----------------+----------+----------------+---------------------+
-5 rows in set (0.00 sec)
 
 <img width="1920" height="1020" alt="task3_01建立test與任意4資料" src="https://github.com/user-attachments/assets/eacd3765-59c4-45db-9d4b-45c9557dbf8a" />
 
