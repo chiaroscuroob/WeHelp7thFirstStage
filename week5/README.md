@@ -59,3 +59,42 @@ mysql> DESC member;
 
 
 # task3
+
+01
+
+mysql> INSERT INTO member (name, email, password)
+    -> VALUES ('test', 'test@test.com', 'test');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO member (name, email, password)
+    -> VALUES ('abc', 'abc@abc.com', 'abc');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO member (name, email, password)
+    -> VALUES ('love', 'love@love.com', 'love');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO member (name, email, password)
+    -> VALUES ('happy', 'happy@happy.com', 'happy');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO member (name, email, password)
+    -> VALUES ('world', 'world@world.com', 'world');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM member;
++----+-------+-----------------+----------+----------------+---------------------+
+| id | name  | email           | password | follower_count | time                |
++----+-------+-----------------+----------+----------------+---------------------+
+|  1 | test  | test@test.com   | test     |              0 | 2025-11-16 20:24:39 |
+|  2 | abc   | abc@abc.com     | abc      |              0 | 2025-11-16 20:29:42 |
+|  3 | love  | love@love.com   | love     |              0 | 2025-11-16 20:30:09 |
+|  4 | happy | happy@happy.com | happy    |              0 | 2025-11-16 20:30:31 |
+|  5 | world | world@world.com | world    |              0 | 2025-11-16 20:30:56 |
++----+-------+-----------------+----------+----------------+---------------------+
+5 rows in set (0.00 sec)
+
+<img width="1920" height="1020" alt="task3_01建立test與任意4資料" src="https://github.com/user-attachments/assets/eacd3765-59c4-45db-9d4b-45c9557dbf8a" />
+
+02
+
