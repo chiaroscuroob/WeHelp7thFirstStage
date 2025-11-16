@@ -60,7 +60,7 @@ mysql> DESC member;
 
 # task3
 
-01
+01+02
 
 mysql> INSERT INTO member (name, email, password)
     -> VALUES ('test', 'test@test.com', 'test');
@@ -96,5 +96,10 @@ mysql> SELECT * FROM member;
 
 <img width="1920" height="1020" alt="task3_01建立test與任意4資料" src="https://github.com/user-attachments/assets/eacd3765-59c4-45db-9d4b-45c9557dbf8a" />
 
-02
+03
+
+mysql> SELECT * FROM member
+    -> ORDER BY time DESC;
+    
+<img width="863" height="522" alt="task3_03選擇資料表以時間遞減順序排列" src="https://github.com/user-attachments/assets/34e7c032-87f4-441c-8f25-b68be377536e" />
 
