@@ -184,8 +184,6 @@ Query OK, 0 rows affected (0.14 sec)
 
 02
 
-USE website;
-
 SELECT
   m.id,
   mb.name AS sender_name,
@@ -201,8 +199,6 @@ JOIN member AS mb
 
 03
 
-USE website;
-
 SELECT
   m.*,
   mb.name AS sender_name
@@ -210,4 +206,32 @@ FROM message AS m
 JOIN member AS mb
   ON m.member_id = mb.id
 WHERE mb.email = 'test@test.com';
+
+<img width="1047" height="397" alt="task5_03" src="https://github.com/user-attachments/assets/5790f031-01b3-4b69-9fff-cc72c336afac" />
+
+
+04
+
+mysql> SELECT
+    -> AVG(m.like_count) AS avg_like
+    -> FROM message AS m
+    -> JOIN member AS mb
+    -> ON m.member_id = mb.id
+    -> WHERE mb.email = 'test@test.com';
+
+<img width="590" height="343" alt="task5_04 emailtest的讚平均數" src="https://github.com/user-attachments/assets/5b57f366-35eb-414b-8175-697c0e3977cd" />
+
+
+05
+
+mysql> SELECT
+    -> mb.email,
+    -> mb.name AS sender_name,
+    -> AVG(m.like_count) AS avg_like
+    -> FROM message AS m
+    -> JOIN member AS mb
+    -> ON m.member_id = mb.id
+    -> GROUP BY mb.email,mb.name;
+    
+<img width="621" height="452" alt="task5_05 每個email自己的讚平均數" src="https://github.com/user-attachments/assets/a4348b73-b01e-454f-adaa-d6a7c01d9c78" />
 
