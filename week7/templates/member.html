@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="UTF-8">
+        <title>登入成功</title>
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="member-container">
+                <div class="header">歡迎光臨，這是會員頁</div>
+                <div style="padding: 20px; text-align: center;">
+                    <div><span id="welcome-name">{{ member_name }}</span>，歡迎登入系統</div> <!--{{ member_name }} 可套入會員名稱-->
+                    <a href="/logout" 
+                        style="display:inline-block;
+                        margin-top:20px;
+                        padding:8px 16px;
+                        background-color: #2b4b80;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 4px;">登出系統</a>
+                </div>
+                <div class="section-divider"></div>
+
+                <!--查詢會員資料-->
+                <div class="message">
+                    <div class="form-title">查詢會員姓名</div>
+                    <div id="message-form">
+                        <div class="form-group">
+                            <input type="text" id="query-member-id" required /> 
+                        </div>
+                        <div class="form-group button-group">
+                            <button type="button" onclick="getData()">查詢</button>
+                        </div>
+                        <div id="query-result" style="text-align: center;"></div>
+                    </div>
+                    <div class="section-divider" style="margin-top: 20px; margin-bottom: 20px;"></div>
+
+                    <div class="form-title">更新我的姓名</div>
+                    <div id="update-result">
+                        <div class="form-group">
+                            <input type="text" id="update-name" required /> 
+                        </div>
+                        <div class="form-group button-group">
+                            <button type="button" onclick="updateName()">更新</button>
+                        </div>
+                        <div id="update-status" style="text-align: center;"></div>
+                    </div>
+                    <div class="section-divider" style="margin-top: 20px; margin-bottom: 20px;"></div>
+                    <div class="form-title">誰查詢了我</div>
+                    <div id="log-section">
+                        <div class="form-group button-group">
+                            <button type="button" onclick="getLogs()">更新</button>
+                        </div>
+                        <div id="log-list" style="text-align: center; line-height: 1.8;"></div>
+                    </div>
+                    <div class="section-divider" style="margin-top: 20px; margin-bottom: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    <script>
+        function getData() {
+            let memberId = document.getElementById("query-member-id").value;
+            let url = "http://127.0.0.1:3000/api/member/" + memberId;
+            console.log(url);
+            fetch(url)
+            .then(function(response) {
+                // 拿到回應後，告訴它把內容轉成 JSON 格式
+                return response.json();
+            })
+            .then(function(data) {
+                let resultDiv = document.getElementById("query-result");
+                if (data.data!==null) {
+                    resultDiv.textContent = data.data.name + "("+data.data.email+")";
+                } else {
+                    resultDiv.textContent = "No Data";
+                }
+            })
+        }
+
+        function getLogs() {
+        // 呼叫寫好的後端 API
+        fetch("http://127.0.0.1:3000/api/query-log")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            // 抓到要放列表的空盒子
+            let listDiv = document.getElementById("log-list");
+            
+            // 清空原本的內容，避免按兩次出現重複的
+            listDiv.innerHTML = "";
+
+            // 檢查有沒有資料
+            // data.data 是一個陣列 (Array)，裡面包著很多筆紀錄
+            if (data.data && data.data.length > 0) {
+                
+                // 用迴圈把每一筆資料拿出來處理
+                for (let i = 0; i < data.data.length; i++) {
+                    let log = data.data[i];
+                    
+                    // 建立一個新的 div 標籤來放這行字
+                    let item = document.createElement("div");
+                    
+                    // 組合文字： 名字 (時間) 
+                    // 搜尋並取代： .replace("搜尋此文字", "替換成此文字"))
+                    item.textContent = log.name + " (" + log.time.replace("T"," ") + ")";
+                    
+                    // 把這行字塞進列表盒子裡
+                    listDiv.appendChild(item);
+                }
+
+            } else {
+                // 如果沒資料
+                listDiv.textContent = "目前沒有查詢紀錄";
+            }
+        });
+    }
+
+        function updateName() {
+            // 抓取使用者輸入的新名字
+            let nameInput = document.getElementById("update-name").value;
+            
+            // 準備要傳送的資料物件
+            let requestBody = { "name": nameInput };
+
+            // 發送 fetch 請求
+            // 網址：http://127.0.0.1:3000/api/member
+            fetch("http://127.0.0.1:3000/api/member", {
+                method: "PATCH", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                // 把 JavaScript 物件轉成 JSON 字串
+                body: JSON.stringify(requestBody)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                // 處理回傳結果
+                let statusDiv = document.getElementById("update-status");
+                if (data.ok) {
+                    statusDiv.textContent = "已更新";
+                    document.getElementById("welcome-name").textContent = nameInput;
+                } else {
+                    statusDiv.textContent = "更新失敗";
+                }
+            });
+        }
+    </script>
+    </body>
+</html>
